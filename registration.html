@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registration</title>
+    <link rel="stylesheet" href="page.css">
+</head>
+<body>
+    <div class="container">
+        <h1><u>REGISTRATION FORM</u></h1><br><br><br>
+
+        <label for="name">Full Name:</label>&nbsp;
+        <input type="text" placeholder="Enter Name" id="name"><br><br>
+  
+        <label for="email">Email:</label>&nbsp;
+        <input type="email" placeholder="Enter Email" id="email"><br><br>
+    
+        <label for="password">Create Password:</label>&nbsp;
+        <input type="password" placeholder="Create a new Password" id="password"><br><br>
+       
+        <label for="cpassword">Confirm Password:</label>&nbsp;
+        <input type="password" placeholder="re-enter password" id="cpassword" onchange="password()"><br><br>
+        <div id="notmatch"></div>
+    
+        <label for="dob">DOB:</label>&nbsp;
+        <input type="date" placeholder="Enter DOB" id="dob"><br><br>
+
+        <label for="gender">Gender</label>
+        <select id="gender">
+            <option>Select</option>
+            <option>male</option>
+            <option>female</option>
+            <option>other</option>
+        </select><br><br>
+ 
+        <label>Select City:</label>&nbsp;
+        <input list="city" id="selcity">
+        <datalist id="city">
+            <option value="Burdwan">
+            <option value="Kolkata">
+            <option value="Delhi">
+            <option value="Hariyana">
+        </datalist><br><br>
+      
+        <label for="education">Qualification:</label>&nbsp;
+        <select id="education">
+            <option>Select</option>
+            <option>Higher Secondary</option>
+            <option>Graduate</option>
+            <option>Post Graduate</option>
+        </select><br><br>
+
+        <label for="resume">Upload Resume:</label>&nbsp;
+        <input type="file" id="resume"><br><br><br>
+
+        <button id="register" onclick="register()">Register</button>
+        
+    </div>
+    
+    <script>
+        function password(){
+            var password=document.getElementById('password').value;
+            var cpassword=document.getElementById('cpassword').value;
+            if(password!=cpassword){
+                document.getElementById('notmatch').innerHTML="password not match";
+                setInterval(function(){
+                    document.getElementById('notmatch').innerHTML="";
+                },1000)
+                document.getElementById('cpassword').value="";
+            }
+        }
+
+        function register(){
+        var name=document.getElementById('name').value;
+        var email=document.getElementById('email').value;
+        var password=document.getElementById('password').value;
+        var dob=document.getElementById('dob').value;
+        var gender=document.getElementById('gender').value;
+        var selcity=document.getElementById('selcity').value;
+        var education=document.getElementById('education').value;
+        var resume=document.getElementById('resume').value;
+        var flag=0;
+        if(name=="" || email=="" || password=="" || dob=="" || gender=="Select" || 
+        selcity=="" || education=="Select" || resume==""){
+            //   document.getElementById('required').innerHTML="fill the place";
+            //   setTimeout(function(){
+            //     document.getElementById('required').innerHTML="";
+            //   },3000)
+            alert("fill all the fields");
+              flag=1;
+        };
+        if(flag==0){
+        var user={
+            "name":name,
+            "email":email,
+            "password":password,
+            "dob":dob,
+            "gender":gender,
+            "selcity":selcity,
+            "education":education,
+            "resume":resume
+        };       
+        if(localStorage.getItem('students')){
+            var students=JSON.parse(localStorage.getItem('students'));
+            students.push(user);
+            localStorage.setItem("students",JSON.stringify(students));
+        }
+        else{
+            var students=[];
+            students.push(user);
+            localStorage.setItem("students", JSON.stringify(students));
+        }
+        document.getElementById('name').innerHTML="";
+        document.getElementById('email').innerHTML="";
+        document.getElementById('password').innerHTML="";
+        document.getElementById('dob').innerHTML="";
+        document.getElementById('gender').innerHTML="";
+        document.getElementById('selcity').innerHTML="";
+        document.getElementById('education').innerHTML="";
+        document.getElementById('resume').innerHTML="";
+        setTimeout(function(){
+            window.location.href="login.html";
+        },1000)
+        }
+    }
+         
+       
+    </script>
+
+</body>
+</html>
